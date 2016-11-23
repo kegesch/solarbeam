@@ -1,0 +1,43 @@
+body, html {
+	background: 
+		linear-gradient(
+			rgba(0, 150, 150, 0.45),
+			rgba(0, 150, 150, 0.45)
+		),
+		url('background.jpg');
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		font-family: 'Roboto', sans-serif;
+		top: 0;
+		left: 0;
+		padding: 0px;
+		margin: 0px;
+}
+
+#logo {
+	font-family: 'Leckerli One', Verdana;
+	font-size: 4em;
+	color: white;
+	display: block;
+	height: 80px;
+	width: 350px;
+	margin: 0 auto;
+	margin-bottom: 20px;
+	background-size: 200px;
+	background-repeat: no-repeat;
+}
+
+#content {
+	width: 60%;
+	margin: 0 auto;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+button {
+	margin: 0px 5px !important;
+}
