@@ -1,0 +1,1 @@
+SELECT DATE_FORMAT(`time`, '%Y-%m') as `month`, leistung, `offset` FROM `leistung`, `zaehler` WHERE DATE_FORMAT(`time`, '%Y-%m-%d') = '2014-12-31' AND zaehlerid = ID ORDER BY `time` DESC LIMIT 1;
