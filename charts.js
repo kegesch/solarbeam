@@ -97,8 +97,6 @@ function updateYearly(json) {
 					type: 'line',
 					label: 'lokaler Durchschnitt',
 					data: datagoal,
-					backgroundColor: 'rgba(40,200,185 ,0.2)', 
-					borderColor: 'rgba(40,200,185 ,1)',
 					fill: false
 				}
 				]
