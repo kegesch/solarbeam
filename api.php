@@ -30,6 +30,21 @@ switch($q) {
 		echo json_encode($data);
 		exit;
 	break;
+	case 'yearlybezug':
+		$data = array();
+		$preyear_value = 0;
+		$res = mysqli_query($con, "SELECT DATE_FORMAT(`time`, '%Y') as `year`, leistung as zaehlerstand, `offset` FROM leistung_bezug, zaehler WHERE (DATE_FORMAT(`time`, '%m-%d') = '12-31' OR DATE_FORMAT(`time`, '%Y-%m-%d') = DATE_FORMAT(subdate(now(),1), '%Y-%m-%d')) AND zaehlerid = ID ORDER BY `time` ASC;");
+		while($row = mysqli_fetch_array($res)) {
+			$db_year = $row['year'];
+			$value = $row['zaehlerstand'] - $preyear_value + $row['offset'];
+			//echo "Zaehlerstand: ".$row['zaehlerstand']."-".$preyear_value."+".$row['offset']."=".$value."<br/>";
+			$data['labels'][] = $db_year;
+			$data['series'][] = round($value);
+			$preyear_value = $row['zaehlerstand']+$row['offset'];
+		}
+		echo json_encode($data);
+		exit();
+	break;
 	case 'year': 
 		if(!array_key_exists('y', $_GET)) {
 			

@@ -48,34 +48,67 @@ function updateYearsChartAll() {
 
 
 function updateYearly(json) {
-	var labels = [], data=[];
 	
-    for(x in json.labels){
-		labels.push(json.labels[x]);
-    }
-	for(y in json.series) {
-		data.push(json.series[y]);
-	}
-
-    // Create the chart.js data structure using 'labels' and 'data'
-    var charData = {
-      type: 'bar',
-	  data: {
-			labels : labels,
-			datasets: [
-			{
-				label: 'Leistung in kW',
-				data: data,
-				backgroundColor: 'rgba(41,128,185 ,0.2)', 
-				borderColor: 'rgba(41,128,185 ,1)',
-				borderWidth: 1
-			}
-			]
+	getJSONFromUrl('api.php?q=yearlybezug', function(jsonbezug) {
+			
+		var labels = [], datalieferung=[], databezug=[], datagoal=[];
+		
+		//labels from bezug - are more
+		for(x in jsonbezug.labels){
+			labels.push(jsonbezug.labels[x]);
 		}
-	}
+		
+		//series from lieferung
+		for(y in json.series) {
+			datalieferung[parseInt(y) + 6] = json.series[y];
+		}
+		
+		//series from bezug
+		for(y in jsonbezug.series) {
+			databezug.push(jsonbezug.series[y]);
+		}
+
+		//series for goal line
+		for(var i = 0; i < labels.length; i++) {
+			datagoal.push(4081);
+		}
+		
+		// Create the chart.js data structure using 'labels' and 'data'
+		var charData = {
+		  type: 'bar',
+		  data: {
+				labels : labels,
+				datasets: [
+				{
+					label: 'Lieferung',
+					data: datalieferung,
+					backgroundColor: 'rgba(41,128,185 ,0.2)', 
+					borderColor: 'rgba(41,128,185 ,1)',
+					borderWidth: 1
+				},
+				{
+					label: 'Bezug',
+					data: databezug,
+					backgroundColor: 'rgba(180,128,185 ,0.2)', 
+					borderColor: 'rgba(180,128,185 ,1)',
+					borderWidth: 1
+				},
+				{
+					type: 'line',
+					label: 'lokaler Durchschnitt',
+					data: datagoal,
+					backgroundColor: 'rgba(40,200,185 ,0.2)', 
+					borderColor: 'rgba(40,200,185 ,1)',
+					fill: false
+				}
+				]
+			}
+		}
+		
+	  var ctx = document.getElementById("yearlyChart").getContext("2d");
+	  var yearlyChart = new Chart(ctx, charData);
+	});
 	
-  var ctx = document.getElementById("yearlyChart").getContext("2d");
-  var yearlyChart = new Chart(ctx, charData);
 }
 
 function updateYears(json) {
@@ -87,6 +120,8 @@ function updateYears(json) {
 	for(y in json.series) {
 		data.push(json.series[y]);
 	}
+	
+	var datasoll = [106.11, 236.70, 346.89, 457.07, 510.13, 534.61, 514.21, 510.13, 391.78, 257.10, 122.43, 93.86];
 
     // Create the chart.js data structure using 'labels' and 'data'
     var charData = {
@@ -125,6 +160,10 @@ function updateYears(json) {
 						'rgba(192,57,43 ,1)'
 					],
 					borderWidth: 1
+			},
+			{
+				type: 'line',
+				data: datasoll
 			}
 			]
 		},
