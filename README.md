@@ -28,10 +28,58 @@ cd dev\
 ```
 Nach dem `python\Sensortest.py` ausgeführt wird sollten dann die verschiedenen Nachrichten kommen. Dabei wird allerdings nur der relevante Ausschnitt, der die Zählerstände beinhaltet, ausgegeben.
 
-Nun schaut man nach welche OBIS-Kennzahlen dort erkenn bar sind. Im Normalfall sollte das für den Bezug `1-08-01` und für Lieferung `2-08-01` sein.
+```sh
+# 77078181c78203ff0101010104454d4801
+# 77070100000009ff010101010b06454d480104c56ec5bd01
+# 77070100020800ff6400000001621e52ff5600020f37e201
+# 77070100020801ff0101621e52ff5600020f37e201 //Zählerstand
+# 77070100100700ff0101621b52ff550000000001 //momentaner Bezug / Leistung
+# 77078181c78205ff01726201650136ece901018302739899a4350308b2be3a7022b69067cf0a021eb85e02a2f95810a06a6a1f5e48ed56bc3a53e771f68d66540c260e6d1c010101+
+```
 
+Nun schaut man nach welche OBIS-Kennzahlen dort erkenn bar sind. Im Normalfall sollte das für den Bezug `01-08-01` und für Lieferung `02-08-01` sein.
+Hier im Beispiel steht dies in der 3. Zeile: 77070100`020801`ff0101621e52ff5600020f37e201
+Den Wert den man dann haben möchte ist zwischen dem `ff56` und der `01` also hier: `00020f37e2`. Diesen Hex-Wert wandelt man dann noch in einen Integer-Wert um teilt ihn durch 10^4. Dann hat man das gewünschte Ergebnis.
+
+Hat man also seinen entsprechenden Wert gefunden, merkt man sich die Zahlenfolge die die OBIS-Kennzahl darstellt. Hier z.B.: `77070100020801ff`. Diese gibt man im Skript dann als Suchparameter ein. Meine Skripte basieren auf dem Skript von [Alexander Kabza](http://www.kabza.de/MyHome/RPi.html).
+Ich habe es so weiter bearbeitet, dass sobald eine Nachricht fertig gelesen wurde, der Wert in eine Datenbank geschrieben wird. Zu dem Python-Skript mache ich dann noch ein ausführbares Shell-Skript. 
+
+Shell-Skript: 
+````sh
+#!/bin/bash
+sudo python /home/pi/Documents/EHZ/strombezug.py
+````
+Ausführbar machen: 
+````sh
+chmod +x strombezug.sh
+````
+
+Das Skript lasse ich dann per Cronjob jeden Tag um 23:59 einmal ausführen. 
+Cronjobs lasen sich mit 
+````sh
+crontab -e
+````
+erstellen / modifizieren. Und mit 
+````sh
+crontab -l
+````
+kann man sich alle Cronjobs anzeigen lassen.
+````sh
+59 23 * * * /home/pi/Documents/EHZ/stromlieferung.sh
+59 23 * * * /home/pi/Documents/EHZ/strombezug.sh
+````
+So erhalte ich was die Photovoltaik anlage am Tag geleistet hat bzw. was das Haus an Strom pro Tag verbraucht und kann das ganze dann später visualisiert darstellen.
+
+## MySQL und Apache ##
+````sh
+sudo apt-get mysql-server mysql-client apache2 php5-cgi php5-mysql
+````
+
+## Front-End
 
 
 ## Quellen
 http://wiki.volkszaehler.org/software/sml
 http://www.kabza.de/MyHome/RPi.html
+https://github.com/chartjs/Chart.js/releases
+https://jquery.com
