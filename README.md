@@ -74,9 +74,30 @@ So erhalte ich was die Photovoltaik anlage am Tag geleistet hat bzw. was das Hau
 ````sh
 sudo apt-get mysql-server mysql-client apache2 php5-cgi php5-mysql
 ````
+-mysql user erstellen und datenbank erstellen
+-Create sql ausführen
+-mysql-zugangsdaten in die Python-Skripte speichern / in der index.php und
+api.php
+
+Die Datenbank enthält eine Tabelle, die die Zähler speichert. Ein Zähler hat
+eine ID, einen Namen und ein Offset. Der Offset dient dazu den Zählerstand zu
+speichern, wenn ein ein neuer Zähler eingesetzt wird. So legt man einen neuen
+Zähler mit dem Offset = Zählerstand des alten Zählers an. Somit kann man später
+die Berechnung genaustens Durchführen.
+
+Weiter gibt es noch eine Tabelle für den Bezug und Lieferung in der jeweils die
+Zähler-ID, ein Timestamp und der Zählerstand gespeichert wird. 
+Wenn man will kann man auch noch ein Skript laufen lassen, was sekündlich den
+aktuellen Wert des Zähler, also die momentane Leistung / Bezug in eine Tabelle
+schreibt. Das kann man aber natürlich auch anders lösen.
+
+TODO Create-SQL
 
 ## Front-End
-
+Zur Visualisierung habe ich eine kleine API geschrieben, die mir beispielsweise
+die Werte pro Monat im Jahr oder die Werte pro Jahre im JSON-Format
+zurückliefert. Um das ganze dann darzustellen benutze ich die OSS Chart.js. Und
+lasse dann per Ajax die Werte von der API holen. 
 
 ## Quellen
 http://wiki.volkszaehler.org/software/sml
