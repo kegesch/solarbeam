@@ -25,7 +25,14 @@
 		<script type="text/javascript" src="charts.js"></script>
 		<title>SOLAR#Beam</title>
 	</head>
-	<body>
+        <body>
+
+                <?php
+                  $con = mysqli_connect('localhost', 'root', '', 'stromzaehler');
+                  //$res = mysqli_query("SELECT `time` FROM leistung_bezug WHERE ")
+  
+                ?>
+        
 		<script>
 			function checkMomentaneLeistung() {
 				getJSONFromUrl('api.php?q=c', function(obj) {
@@ -54,7 +61,6 @@
 			<p style="margin-top: 15px;">
 				<?php
 					
-				$con = mysqli_connect('localhost', 'root', '', 'stromzaehler');
 				$res = mysqli_query($con, "SELECT DISTINCT(YEAR(`time`)) as year FROM leistung WHERE DATE_FORMAT(`time`, '%m-%d') = '01-01' OR DATE_FORMAT(`time`, '%m-%d') = '12-31' ORDER BY `time` ASC;");
 				while($row = mysqli_fetch_array($res)) {
 					echo '<button class="btn btn-default" type="submit" onclick="getJSONFromUrl(\'api.php?q=year&y='.$row['year'].'\', updateYears);">'.$row['year'].'</button>';
