@@ -10,7 +10,7 @@ $q = $_GET['q'];
 
 $con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
 if(mysqli_connect_errno()) {
-	$json_arr['error'] = mysql_error();
+	$json_arr['error'] = mysqli_error();
 	echo json_encode($json_arr);
 	exit;
 }
