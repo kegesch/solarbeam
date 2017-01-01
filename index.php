@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php require_once "config.php" ?>
 <html lang="de">
 	<head>
 		<meta charset="utf-8">
@@ -28,7 +29,7 @@
         <body>
 
                 <?php
-                  $con = mysqli_connect('localhost', 'root', '', 'stromzaehler');
+$con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
                   //$res = mysqli_query("SELECT `time` FROM leistung_bezug WHERE ")
   
                 ?>

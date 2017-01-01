@@ -1,4 +1,5 @@
 <?php
+require_once "config.php";
 $json_arr = array();
 if(!array_key_exists('q', $_GET)) {
 	$json_arr['error'] = 'no param';
@@ -7,7 +8,7 @@ if(!array_key_exists('q', $_GET)) {
 }
 $q = $_GET['q'];
 
-$con = mysqli_connect('localhost', 'root', '', 'stromzaehler');
+$con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
 if(mysqli_connect_errno()) {
 	$json_arr['error'] = mysql_error();
 	echo json_encode($json_arr);
@@ -99,17 +100,14 @@ switch($q) {
 		exit;
 	break;
 	case 'c':
-		//$res = mysqli_query($con, "SELECT * FROM momentane_leistung");
+	
 		$data = array();
-		//while($row = mysqli_fetch_array($res)) {
-		//	$data[] = array("zaehlerid" => $row[0], "time" => $row[1], "leistung" => $row[2]);
-}
                 $output = array();
                 exec("python /home/pi/Documents/EHZ/aktlei.py", $output);
-                $data[] = array("zaehlerid" => 1, "leistung" => $ouput[0])
+                $data[] = array("zaehlerid" => 1, "leistung" => $output[0]);
 		echo json_encode($data);
 		exit;
-	break;
+        break;
 	case 'w':
 		$data = array();
 		$res = mysqli_query($con, "SELECT DATE_FORMAT(`time`, '%W') as `weekday`, leistung, `offset` FROM leistung, zaehler WHERE zaehlerid = ID ORDER BY `time` DESC LIMIT 8;");
