@@ -99,11 +99,14 @@ switch($q) {
 		exit;
 	break;
 	case 'c':
-		$res = mysqli_query($con, "SELECT * FROM momentane_leistung");
+		//$res = mysqli_query($con, "SELECT * FROM momentane_leistung");
 		$data = array();
-		while($row = mysqli_fetch_array($res)) {
-			$data[] = array("zaehlerid" => $row[0], "time" => $row[1], "leistung" => $row[2]);
-		}
+		//while($row = mysqli_fetch_array($res)) {
+		//	$data[] = array("zaehlerid" => $row[0], "time" => $row[1], "leistung" => $row[2]);
+}
+                $output = array();
+                exec("python /home/pi/Documents/EHZ/aktlei.py", $output);
+                $data[] = array("zaehlerid" => 1, "leistung" => $ouput[0])
 		echo json_encode($data);
 		exit;
 	break;
