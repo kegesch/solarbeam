@@ -99,6 +99,20 @@ die Werte pro Monat im Jahr oder die Werte pro Jahre im JSON-Format
 zurückliefert. Um das ganze dann darzustellen benutze ich die OSS Chart.js. Und
 lasse dann per Ajax die Werte von der API holen. 
 
+### API
+
+`?q=yearly` Ein Wert pro Jahr (Lieferung)
+
+`?q=yearlybezug` Ein Wert pro Jahr (Bezug)
+
+`?q=year&y=xxxx` Ein Wert pro Monat für das Jahr `xxxx`
+
+`?q=year` Ein Wert pro Monat für alle vorhandenen Jahre
+
+`?q=c` Gibt die aktuellen Werte des Zählerstandes (Lieferung + Bezug) zurück
+
+`?q=w` Gibt die Werte der letzten 7 Tage zurück
+
 ## Quellen
 http://wiki.volkszaehler.org/software/sml
 http://www.kabza.de/MyHome/RPi.html
