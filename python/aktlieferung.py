@@ -12,16 +12,6 @@ port = serial.Serial(
 	stopbits=serial.STOPBITS_ONE,
 	bytesize=serial.EIGHTBITS
 )
-
-db = MySQLdb.connect(
-	host='localhost',
-	user='root',
-	passwd='raspberry',
-	db='stromzaehler'
-)
-
-cur = db.cursor()
-
 start = '1b1b1b1b01010101'
 end = '1b1b1b1b1a'
 
@@ -37,21 +27,16 @@ while True:
 		data = data[pos:len(data)]
 	pos = data.find(end)
 	if (pos <> -1):
-		timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-
 		search = '070100100700ff'
+	
 		pos = data.find(search)
 		if (pos <> -1):
 			pos = pos + len(search) + 14
 			value = data[pos:pos + 8]
 
 			valuedb = str(int(value, 16) / 1e1)
-			sql = ("UPDATE `momentane_leistung` SET `time`='"+timestamp+"', `leistung`='"+valuedb+"' WHERE zaehlerid=1;")	
-#			print sql
-			cur.execute(sql) 		
-			db.commit()		
-			time.sleep(5)
-		data = ''
+        		data = ''
+			print valuedb
+			exit()
+        
 		
-		
-db.close()
