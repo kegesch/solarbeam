@@ -29,7 +29,7 @@
         <body>
 
                 <?php
-$con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
+                  $con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
                   //$res = mysqli_query("SELECT `time` FROM leistung_bezug WHERE ")
   
                 ?>
@@ -56,7 +56,7 @@ $con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
 			<br/>
 			<div style="border-bottom: 1px solid #ccc; height: 2px;"></div>
 			<h3>Jahresübersicht</h3>
-			<canvas id="yearlyChart" width="400" height="150"> </canvas>
+			<canvas id="yearlyChart"> </canvas>
 			<div style="border-bottom: 1px solid #ccc; height: 2px;"></div>
 			<h3>Monatsübersicht</h3>
 			<p style="margin-top: 15px;">
@@ -66,15 +66,16 @@ $con = mysqli_connect(MYSQL_HOST, MYSQL_LOGIN, MYSQL_PASS, 'stromzaehler');
 				while($row = mysqli_fetch_array($res)) {
 					echo '<button class="btn btn-default" type="submit" onclick="getJSONFromUrl(\'api.php?q=year&y='.$row['year'].'\', updateYears);">'.$row['year'].'</button>';
 				}
-				mysqli_close($con);
+                                mysqli_close($con);
+
 				?>
-				<button class="btn btn-primary" type="submit" onclick="updateYearsChartAll()">Alle</button>
+				<button class="btn btn-default" type="submit" onclick="updateYearsChartAll()">Alle</button>
 			</p>
 			
-			<canvas id="yearsChart" width="400" height="150"> </canvas>
+			<canvas id="yearsChart"> </canvas>
 			<div style="border-bottom: 1px solid #ccc; height: 2px; margin: 10px 0px;"></div>
 			<h3>Letzten 7 Tage</h3>
-			<canvas id="lastWeekChart" width="400" height="150"> </canvas>
+			<canvas id="lastWeekChart"> </canvas>
 		</div>
 	
 	</body>
