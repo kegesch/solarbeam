@@ -102,9 +102,7 @@ switch($q) {
 	case 'c':
 	
 		$data = array();
-                $output = array();
-                exec("python /home/pi/Documents/EHZ/aktlei.py", $output);
-                $data[] = array("zaehlerid" => 1, "leistung" => $output[0]);
+		$data[] = array("zaehlerid" => 1, "leistung" => exec("sudo python python/aktlei.py");
 		echo json_encode($data);
 		exit;
         break;

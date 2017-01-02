@@ -6,14 +6,12 @@ import time
 import MySQLdb
 
 port = serial.Serial(
-	port='/dev/ttyUSB0',
+	port='/dev/ttyUSB1',
 	baudrate=9600,
 	parity=serial.PARITY_NONE,
 	stopbits=serial.STOPBITS_ONE,
 	bytesize=serial.EIGHTBITS
 )
-cur = db.cursor()
-
 start = '1b1b1b1b01010101'
 end = '1b1b1b1b1a'
 
@@ -30,13 +28,15 @@ while True:
 	pos = data.find(end)
 	if (pos <> -1):
 		search = '070100100700ff'
+	
 		pos = data.find(search)
 		if (pos <> -1):
 			pos = pos + len(search) + 14
 			value = data[pos:pos + 8]
 
 			valuedb = str(int(value, 16) / 1e1)
-	        print valuedb
-        data = ''
+        		data = ''
+			print valuedb
+			exit()
         
 		
