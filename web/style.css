@@ -43,6 +43,10 @@ button {
 }
 
 @media only screen and (max-device-width: 900px) {
+  
+  body, html {
+    background: white;
+  }
 
   #content {
     width: 100%;
