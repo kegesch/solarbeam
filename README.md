@@ -1,4 +1,4 @@
-# Solar Beam ![alt text](https://github.com/Y0nnyy/solarbeam/raw/master/favicons/favicon-32x32.png "Logo")
+# Solar Beam ![alt text](https://github.com/Y0nnyy/solarbeam/raw/master/web/favicons/favicon-32x32.png "Logo")
 
 Ein Projekt um Zählerstände eines SmartMeters auszulesen, in eine Datenbank zu schreiben und zu visualisieren.
 

@@ -98,8 +98,26 @@ switch($q) {
 		}
 		echo json_encode($data);
 		exit;
-	break;
-	case 'c':
+        break;
+        case 'yl':
+                $data = array();
+                $res = mysqli_query($con, "SELECT DISTINCT(YEAR(`time`)) as year FROM leistung WHERE DATE_FORMAT(`time`, '%m-%d') = '01-01' OR DATE_FORMAT(`time`, '%m-%d') = '12-31' ORDER BY `time` ASC;");
+                while($row = mysqli_fetch_array($res)) {
+                  $data['series'][] = $row['year'];
+                }
+                echo json_encode($data);
+                exit;
+        break;
+        case 'yb':
+                $data = array();
+                $res = mysqli_query($con, "SELECT DISTINCT(YEAR(`time`)) as year FROM leistung_bezug WHERE DATE_FORMAT(`time`, '%m-%d') = '01-01' OR DATE_FORMAT(`time`, '%m-%d') = '12-31' ORDER BY `time` ASC;");
+                while($row = mysqli_fetch_array($res)) {
+                  $data['series'][] = $row['year'];
+                }
+                echo json_encode($data);
+                exit;
+        break;
+        case 'c':
 	
 		$data = array();
 		$data[] = array("zaehlerid" => 1, "leistung" => exec("sudo python ../python/aktlieferung.py"));
