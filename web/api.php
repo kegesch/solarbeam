@@ -102,8 +102,8 @@ switch($q) {
 	case 'c':
 	
 		$data = array();
-		$data[] = array("zaehlerid" => 1, "leistung" => exec("sudo python python/aktlieferung.py"));
-		$data[] = array("zaehlerid" => 0, "leistung" => exec("sudo python python/aktbezug.py"));
+		$data[] = array("zaehlerid" => 1, "leistung" => exec("sudo python ../python/aktlieferung.py"));
+		$data[] = array("zaehlerid" => 0, "leistung" => exec("sudo python ../python/aktbezug.py"));
 		echo json_encode($data);
 		exit;
         break;
