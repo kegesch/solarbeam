@@ -37,3 +37,34 @@ function makeYearlyTable() {
   });
   
  }
+
+function makeYearTable(json) {
+  var tablediv = document.getElementById("yeartable");
+  tablediv.className += " table-responsive";
+  
+  var content = "<table class=\"table\"><tr><th>Tag</th>";
+  for(month in json.labels) {
+    content += "<th>"+json.labels[month]+"</th>";
+  }
+  content += "</tr>";
+  console.log(json);
+  var i,j;
+  for(i = 1; i <= 31; i++) {
+    content += "<tr><th>"+i+"</th>";
+    
+    for(j = 1; j <= json.labels.length; j++) {
+      //console.log(json.series[""+j]);
+      jsonmonth = json.series[""+j];
+      value = jsonmonth[""+(i-1)];
+      content += "<td>"+(value != null ? Math.round(value*100)/100 : "")+"</td>";
+    }
+    content += "</tr>";
+  }
+
+  content += "</table>";
+
+  tablediv.innerHTML = content;
+
+}
+
+getJSONFromUrl("api.php?q=yearall&y="+ new Date().getFullYear(), makeYearTable);

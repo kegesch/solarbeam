@@ -99,6 +99,46 @@ switch($q) {
 		echo json_encode($data);
 		exit;
         break;
+        case 'yearall':
+                if(!array_key_exists('y', $_GET)) {
+                  $json_arr['error'] = 'missing param y';
+                  break;
+                }
+                $data = array();
+                $year = $_GET['y'];
+                $res = mysqli_query($con, "SELECT DISTINCT(DATE_FORMAT(time, \"%M\")) as month FROM leistung WHERE YEAR(time) = '".$year."' ORDER BY time ASC;");
+                while($row = mysqli_fetch_array($res)) {
+                  $data['labels'][] = $row['month'];
+                }
+
+                $sql = "SELECT DATE_FORMAT(time, \"%M\") as `month`, DATE_FORMAT(`time`, \"%Y-%m-%d\") as `time`, `leistung`, `offset` FROM `leistung`, `zaehler` WHERE `leistung`.`zaehlerid` = `zaehler`.`ID` AND YEAR(`time`) = '".$year."' ORDER BY `time` ASC;";
+                //echo $sql;
+                  
+                $res = mysqli_query($con, $sql);
+                $oldmonth = "";
+                $i = 0;
+                $last_leistung = -1;
+                while($row = mysqli_fetch_array($res)) {
+                  if($last_leistung == -1) {
+                    $sql = "SELECT leistung, `offset` FROM leistung, zaehler WHERE zaehlerid = ID AND date_format(time, \"%Y-%m-%d\") = DATE_SUB('".$row['time']."', INTERVAL 1 DAY);";
+                    //echo $sql;
+                    $res2 = mysqli_query($con, $sql);
+                    if(mysqli_num_rows($res2) > 0) {
+                      $row2 = mysqli_fetch_array($res2);
+                      $last_leistung = $row2['leistung'] + $row2['offset'];
+                    } else $last_leistung = 0;
+                  }  
+                  if($oldmonth != $row['month']) {
+                   $i++;
+                  }
+                  $leistung = $row['leistung'] + $row['offset'];
+                  $data['series'][$i][] = $leistung-$last_leistung;
+                  $oldmonth = $row['month'];
+                  $last_leistung = $leistung;
+                }   
+                echo json_encode($data);
+                exit;
+        break;
         case 'yl':
                 $data = array();
                 $res = mysqli_query($con, "SELECT DISTINCT(YEAR(`time`)) as year FROM leistung WHERE DATE_FORMAT(`time`, '%m-%d') = '01-01' OR DATE_FORMAT(`time`, '%m-%d') = '12-31' ORDER BY `time` ASC;");
