@@ -55,8 +55,9 @@
                     }
                   ?>
                   <ul class="nav nav-tabs">
-                  <li role="presentation" class="<?php echo ($page == "graph" ? "active" : "") ?>"><a href="?page=graph">Graph</a></li>
-                  <li role="presentation" class="<?php echo ($page == "table" ? "active" : "") ?>"><a href="?page=table">Tabelle</a></li>        
+                      <li role="presentation" class="<?php echo ($page == "graph" ? "active" : "") ?>"><a href="?page=graph">Graph</a></li>
+                      <li role="presentation" class="<?php echo ($page == "table" ? "active" : "") ?>"><a href="?page=table">Tabelle</a></li>
+                      <li role="presentation" class="<?php echo ($page == "counter" ? "active" : "") ?>"><a href="?page=counter">Zähler</a></li>
                   </ul>
                   <br/>
                   <div class="panel panel-default">

@@ -16,6 +16,17 @@ if(mysqli_connect_errno()) {
 }
 
 switch($q) {
+	case 'addCounter':
+		if(array_key_exists('name', $_POST) && array_key_exists('mode', $_POST)) {
+			$name = trim($_POST['name']);
+			$mode = $_POST['mode'];
+			$active = 'activeLieferung';
+			if($mode == 'Bezug') $active = 'activeBezug';
+			mysqli_query($con, "UPDATE zaehler SET ".$active." = false;");
+			mysqli_query($con, "INSERT INTO zaehler (`name`, `offset`, `".$active."`) VALUES ('".$name."', '".$offset."', true) ");
+			exit;
+		}
+		break;
 	case 'yearly':
 		$data = array();
 		$preyear_value = 0;
