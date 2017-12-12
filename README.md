@@ -2,6 +2,11 @@
 
 Ein Projekt um Zählerstände eines SmartMeters auszulesen, in eine Datenbank zu schreiben und zu visualisieren.
 
+## Screenshots
+<img src="https://github.com/Y0nnyy/solarbeam/raw/master/resources/screenshot1.png" width="280" style="display: inline;"/> <img src="https://github.com/Y0nnyy/solarbeam/raw/master/resources/screenshot2.png" width="280" style="display: inline;" /> <img src="https://github.com/Y0nnyy/solarbeam/raw/master/resources/screenshot3.png" width="280" />
+
+## Ordnerstruktur
+
 `data\` Ordner mit privaten alten Zählerstenden die nachträglich in die Datenbank eingepflegt wurden.
 `python\` enthält die _Python_-Scripts, die für das Auslesen des Zählerstandes genutzt werden. 
 
