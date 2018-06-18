@@ -30,7 +30,20 @@ switch($q) {
 	case 'yearly':
 		$data = array();
 		$preyear_value = 0;
-		$res = mysqli_query($con, "SELECT DATE_FORMAT(`time`, '%Y') as `year`, leistung as zaehlerstand, `offset` FROM leistung, zaehler WHERE (DATE_FORMAT(`time`, '%m-%d') = '12-31' OR DATE_FORMAT(`time`, '%Y-%m-%d') = DATE_FORMAT(subdate(now(),1), '%Y-%m-%d')) AND zaehlerid = ID ORDER BY `time` ASC;");
+		$res = mysqli_query($con, "
+SELECT DATE_FORMAT(`time`, '%Y') as `year`, `offset`, zaehlerstand FROM 
+(
+	SELECT MAX(`time`) as maxTime
+	FROM `leistung` as l
+	GROUP BY DATE_FORMAT(`time`, '%Y') 
+) AS x
+INNER JOIN
+(
+		SELECT `time`, `offset`, leistung as zaehlerstand
+			FROM leistung AS l
+				INNER JOIN zaehler as z on z.ID = l.zaehlerid
+			) AS y ON y.time = x.maxTime ORDER BY `time` ASC;
+");
 		while($row = mysqli_fetch_array($res)) {
 			$db_year = $row['year'];
 			$value = $row['zaehlerstand'] - $preyear_value + $row['offset'];
@@ -45,7 +58,20 @@ switch($q) {
 	case 'yearlybezug':
 		$data = array();
 		$preyear_value = 0;
-		$res = mysqli_query($con, "SELECT DATE_FORMAT(`time`, '%Y') as `year`, leistung as zaehlerstand, `offset` FROM leistung_bezug, zaehler WHERE (DATE_FORMAT(`time`, '%m-%d') = '12-31' OR DATE_FORMAT(`time`, '%Y-%m-%d') = DATE_FORMAT(subdate(now(),1), '%Y-%m-%d')) AND zaehlerid = ID ORDER BY `time` ASC;");
+		$res = mysqli_query($con, "
+SELECT DATE_FORMAT(`time`, '%Y') as `year`, `offset`, zaehlerstand FROM 
+(
+	SELECT MAX(`time`) as maxTime
+	FROM leistung_bezug as l
+	GROUP BY DATE_FORMAT(`time`, '%Y') 
+) AS x
+INNER JOIN
+(
+		SELECT `time`, `offset`, leistung as zaehlerstand
+			FROM leistung_bezug AS l
+				INNER JOIN zaehler as z on z.ID = l.zaehlerid
+			) AS y ON y.time = x.maxTime ORDER BY `time` ASC;
+");
 		while($row = mysqli_fetch_array($res)) {
 			$db_year = $row['year'];
 			$value = $row['zaehlerstand'] - $preyear_value + $row['offset'];
@@ -171,8 +197,8 @@ switch($q) {
         case 'c':
 	
 		$data = array();
-		$data[] = array("zaehlerid" => 1, "leistung" => exec("sudo python ../python/aktlieferung.py"));
-		$data[] = array("zaehlerid" => 0, "leistung" => exec("sudo python ../python/aktbezug.py"));
+		$data[] = array("zaehlerid" => 1, "leistung" => exec("python ../python/aktlieferung.py"));
+		$data[] = array("zaehlerid" => 0, "leistung" => exec("python ../python/aktbezug.py"));
 		echo json_encode($data);
 		exit;
         break;
